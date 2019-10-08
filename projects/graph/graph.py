@@ -92,17 +92,21 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        # queue = Queue()
-        # visited_nodes = []
-        # queue.enqueue(starting_vertex)
-        # while destination_vertex not in visited_nodes:
-        #     vertex = queue.dequeue()
-        #     if vertex not in visited_nodes:
-        #         visited_nodes.append(vertex)
-        #         for next_vert in self.vertices[vertex]:
-        #             queue.enqueue(next_vert)
-        # print(visited_nodes)
         # Create an empty Q and ENQ to the starting vertex
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        visited = set()
+        while queue.size() > 0:
+            path = queue.dequeue()
+            vertex = path[-1]
+            if vertex is destination_vertex:
+                return path
+            elif vertex not in visited:
+                visited.add(vertex)
+                for next_vert in self.vertices[vertex]:
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    queue.enqueue(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -110,7 +114,23 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack = Stack()
+        # Inside a list in order to grab the last item later in the function (line 122)
+        stack.push([starting_vertex])
+        visited = set()  # using set to not have duplicates in visited
+        while stack.size() > 0:
+            path = stack.pop()
+            vertex = path[-1]
+            if vertex is destination_vertex:
+                return path
+            elif vertex not in visited:
+                visited.add(vertex)  # vertex gets added to the visited
+                # for the next one our vertex points to...
+                for next_vert in self.vertices[vertex]:
+                    new_path = list(path)  # create a new test path
+                    # add our next vert to our test path
+                    new_path.append(next_vert)
+                    stack.push(new_path)  # push the path into the stack
 
 
 if __name__ == '__main__':
@@ -173,7 +193,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    print(graph.dft_recursive(1))
+    # print(graph.dft_recursive(1))
 
     '''
     Valid BFS path:
@@ -181,9 +201,9 @@ if __name__ == '__main__':
     '''
     # print(graph.bfs(1, 6))
 
-    # '''
-    # Valid DFS paths:
-    #     [1, 2, 4, 6]
-    #     [1, 2, 4, 7, 6]
-    # '''
-    # print(graph.dfs(1, 6))
+    '''
+    Valid DFS paths:
+        [1, 2, 4, 6]
+        [1, 2, 4, 7, 6]
+    '''
+    print(graph.dfs(1, 6))
