@@ -38,7 +38,7 @@ class Graph:
         if not visited
             mark as visited
             get adjacent edges and add to list
-        get to top of loop 
+        get to top of loop
         """
         queue = Queue()
         # set() is used to convert any of the iterable to the distinct element and sorted sequenece of iterable elements, commmonly called set.
@@ -70,21 +70,21 @@ class Graph:
                     stack.push(next_vert)
         print(", ".join(str(i) for i in visited_nodes))
 
-    def dft_recursive(self, starting_vertex, visited_nodes=[]):
+    def dft_recursive(self, starting_vertex, visited_nodes=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        stack = Stack()
-        stack.push(starting_vertex)
+        if visited_nodes == None:
+            visited_nodes = []
         visited_nodes.append(starting_vertex)
+        print(starting_vertex)
         for next_vert in self.vertices[starting_vertex]:
             if next_vert not in visited_nodes:
                 self.dft_recursive(next_vert, visited_nodes)
-        printStatement = ", ".join(str(i) for i in visited_nodes)
-        return printStatement
-        # print(", ".join(str(i) for i in visited_nodes))
+        # printStatement = ", ".join(str(i) for i in visited_nodes)
+        # return printStatement
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -92,7 +92,6 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        # Create an empty Q and ENQ to the starting vertex
         queue = Queue()
         queue.enqueue([starting_vertex])
         visited = set()
@@ -193,8 +192,10 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # print(graph.dft_recursive(1))
-
+    print('first time')
+    graph.dft_recursive(1)
+    print('second time')
+    graph.dft_recursive(1)
     '''
     Valid BFS path:
         [1, 2, 4, 6]
